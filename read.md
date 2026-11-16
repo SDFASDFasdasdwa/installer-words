@@ -81,10 +81,20 @@ weiterhin ein anderes Programm öffnet, Words in den Windows-Einstellungen
 unter „Öffnen mit“ als Standard auswählen. Eine `.wo`-Datei kann Programmcode
 ausführen; per Doppelklick daher nur Dateien starten, denen du vertraust.
 
-Ein automatischer Updater ist nicht enthalten. Die angegebene Raw-Quelle
-liefert verschleierten Python-Code, der beim Ausführen dynamisch entschlüsselt
-und mit `exec` gestartet wird. Der Installer lädt diesen Code nicht herunter
-und führt ihn nicht aus.
+Die installierte `WordsRuntime.exe` ruft bei jedem Start die aktuelle
+`main.py` von der [GitHub-Raw-Quelle](https://raw.githubusercontent.com/SDFASDFasdasdwa/Words/refs/heads/main/words%20v.1.0.0)
+über HTTPS ab. Die heruntergeladene Datei wird auf gültige UTF-8-Kodierung und
+Python-Syntax geprüft und danach atomar im Ordner
+`%LOCALAPPDATA%\Words\cache\main.py` gespeichert. Der Zielcomputer benötigt
+weiterhin keine separate Python-Installation.
+
+Wenn GitHub nicht erreichbar ist, verwendet Words die letzte gültige
+heruntergeladene Version. Gibt es noch keine solche Version, startet die in
+der Runtime gebündelte Version. In beiden Fällen erscheint eine entsprechende
+Meldung in der Konsole. Die Quelle ist derzeit verschleiert und führt beim
+Start dynamisch entschlüsselten Python-Code aus. Prüfe, ob du der Quelle und
+ihren Änderungen vertraust, denn heruntergeladener Code wird mit den Rechten
+deines Windows-Benutzers ausgeführt.
 
 ## Schnellstart
 
@@ -401,6 +411,50 @@ Programm steht der Punkt direkt nach dem Textwert, zum Beispiel
 Die Werte der GUI-Elemente müssen Text sein. Bildpfade sind relativ zum Ordner
 der aktuellen `.wo`-Datei oder absolut. Tkinter unterstützt je nach Installation
 unter anderem GIF-, PNG-, PGM- und PPM-Bilder.
+
+### Farben anpassen
+
+Mit `color rolle = "#RRGGBB".` legst du Farben für das ganze Fenster fest.
+Jede Farbe muss als sechsstelliger Hex-Farbwert angegeben werden. Nicht
+angegebene Rollen behalten ihr Standarddesign:
+
+```text
+graphik "My app" [
+    color window = "#101820".
+    color surface = "#202830".
+    color border = "#405060".
+    color title = "#FFFFFF".
+    color subtitle = "#B8C8D8".
+    color text = "#E8F0F8".
+    color muted = "#A0B0C0".
+    color footer = "#8090A0".
+    color input = "#182430".
+    color input_text = "#FFFFFF".
+    color button = "#344454".
+    color button_text = "#FFFFFF".
+    color button_hover = "#45596D".
+    color accent = "#315EFB".
+    color accent_text = "#FFFFFF".
+    color accent_hover = "#244BDD".
+    color accent_pressed = "#1D3FC2".
+    text heading = "Welcome" foreground "#FFDD88" background "#26384A".
+    textbox name = "" foreground "#FFFFFF" background "#182430".
+    button submit = "Continue" foreground "#FFFFFF" background "#315EFB".
+]
+```
+
+Verfügbare globale Rollen sind `window` (Fensterfläche), `surface`
+(Inhaltsbereich), `border`, `title`, `subtitle`, `text`, `muted`, `footer`,
+`input`, `input_text`, `button`, `button_text`, `button_hover`, `accent`,
+`accent_text`, `accent_hover` und `accent_pressed`. `accent`-Farben gelten für
+Buttons mit Ereignisblock; normale Buttons verwenden `button`-Farben.
+
+Jedes Element kann zusätzlich `foreground "#RRGGBB"` und/oder
+`background "#RRGGBB"` direkt nach seinem Startwert angeben. So lassen sich
+`text`, `textbox`, `textarea` und `button` einzeln gestalten. Bei Bildern wird
+nur der Hintergrund des Bild-Widgets geändert; die Bildpixel selbst bleiben
+unverändert. Windows-Fensterrandleisten und die Titelleiste werden vom
+Betriebssystem gesteuert und nicht von diesen Farben eingefärbt.
 
 `on button_name [` legt einen Klick-Ereignisblock für einen Button fest. Der
 Name muss auf ein Element vom Typ `button` verweisen. `read(field_name)` liefert
