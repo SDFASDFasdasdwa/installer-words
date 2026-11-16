@@ -190,6 +190,22 @@ Einige Operatoren nutzen direkt die passenden Python-Operationen. Dadurch
 funktioniert zum Beispiel `"Hello " + "Words"` als Textverkettung. Nicht
 passende Typen oder ungültige Rechenoperationen erzeugen einen Laufzeitfehler.
 
+### Zahlen aus Text erzeugen
+
+`number(value)` wandelt numerischen Text in eine ganze Zahl oder Dezimalzahl
+um. Bereits numerische Werte werden unverändert zurückgegeben:
+
+```text
+text = "12".
+age = number(text).
+price_text = "3.50".
+price = number(price_text).
+print(age + 1, price).
+```
+
+Ungültiger Text, Wahrheitswerte und nicht-endliche Dezimalzahlen wie `"nan"`
+erzeugen einen Words-Fehler.
+
 ## Anweisungen und Kontrollfluss
 
 ### Ausgabe
@@ -335,16 +351,20 @@ MySQL/MariaDB werden nicht unterstützt.
 
 ## Grafische Oberflächen
 
-Mit `graphik "Titel" [` wird ein GUI-Fenster geöffnet. Der Block enthält
-benannte Elemente. Die Namen müssen innerhalb dieses Fensters eindeutig sein:
+Mit `graphik "Titel" [` wird ein modernes Fenster mit Titelbereich,
+abgesetztem Inhaltsbereich und einheitlichen Eingabe- und Aktionsstilen
+geöffnet. Das Fenster wird zentriert und passt sich der Anzahl der Elemente an.
+Der Block enthält benannte Elemente. Die Namen müssen innerhalb dieses
+Fensters eindeutig sein:
 
 ```text
 graphik "Greeting" [
     text heading = "What is your name?".
     textbox visitor = "".
     button greet = "Say hello".
+    text result = "Your greeting will appear here.".
     on greet [
-        print("Hello", read(visitor)).
+        set(result, "Hello " + read(visitor)).
     ]
 ]
 ```
@@ -355,6 +375,7 @@ Unterstützte Elemente:
 | --- | --- |
 | `text name = "..." .` | Zeigt einen Text als Label an. |
 | `textbox name = "..." .` | Zeigt ein einzeiliges Eingabefeld mit Starttext an. |
+| `textarea name = "..." .` | Zeigt ein mehrzeiliges Eingabefeld an. |
 | `button name = "..." .` | Zeigt einen Button an. |
 | `image name = "..." .` | Zeigt ein Bild aus dem angegebenen Pfad an. |
 
@@ -376,11 +397,40 @@ print(read(visitor)).
 print(read("visitor")).
 ```
 
-Elemente erscheinen untereinander. Das Programm wartet, bis das Fenster
+Während das Fenster geöffnet ist, können Widgets anhand ihres Namens geändert
+werden:
+
+```text
+set(message, "Welcome!").
+append(visitor, " Words").
+clear().
+```
+
+- `set(widget_name, value)` ersetzt den Text einer `text`- oder
+  `button`-Anzeige. Bei einem `textbox` oder `textarea` wird dessen Inhalt
+  ersetzt. Namen können unquoted oder als Text angegeben werden.
+- `append(field_name, value)` hängt Text an ein `textbox` oder `textarea` an.
+- `clear()` leert alle ein- und mehrzeiligen Eingabefelder im aktuellen Fenster.
+
+Für `set` und `append` wird der Wert in Text umgewandelt. `append` funktioniert
+nur mit Textfeldern. Diese Funktionen sind innerhalb eines Button-Ereignisses
+verwendbar, solange das zugehörige `graphik`-Fenster offen ist.
+
+Elemente erscheinen untereinander. Mehrzeilige Eingabefelder haben eine
+vertikale Bildlaufleiste. Das Programm wartet, bis das Fenster
 geschlossen wird. Fehler in einem Button-Ereignis werden als Meldungsfenster
 angezeigt. GUIs brauchen Tkinter und eine verfügbare grafische Desktop-Sitzung.
-Derzeit gibt es keine Layoutsteuerung, Checkboxen, Menüs, mehrzeiligen
-Textfelder oder dynamische Änderung der Widgets nach dem Öffnen.
+Checkboxen, Menüs, frei wählbare Positionen oder dynamische Erstellung neuer
+Widgets nach dem Öffnen werden noch nicht unterstützt.
+
+`read(name)` liest ein `textbox` oder `textarea`. Mehrzeilige Felder behalten
+Zeilenumbrüche; `append` hängt den angegebenen Text exakt an.
+
+Die Widgets erscheinen in Deklarationsreihenfolge mit einheitlichen Abständen
+in einem hellen Inhaltsbereich. Buttons mit Ereignisblock erhalten eine
+hervorgehobene Darstellung. Das Fenster wird zentriert und passt sich dem
+Inhalt an. Ein vollständiges Beispiel, das Eingabetext mit
+`number(read(input))` umwandelt, ist in [gui_example.wo](./gui_example.wo).
 
 ## Dateien und Websites öffnen
 
