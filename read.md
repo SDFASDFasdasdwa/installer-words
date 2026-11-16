@@ -15,6 +15,7 @@ gespeichert.
 - [Module importieren](#module-importieren)
 - [SQL-Datenbanken](#sql-datenbanken)
 - [Grafische Oberflächen](#grafische-oberflächen)
+- [Spiele](#spiele)
 - [Dateien und Websites öffnen](#dateien-und-websites-öffnen)
 - [Zufallszahlen](#zufallszahlen)
 - [Kommentare](#kommentare)
@@ -506,6 +507,95 @@ in einem hellen Inhaltsbereich. Buttons mit Ereignisblock erhalten eine
 hervorgehobene Darstellung. Das Fenster wird zentriert und passt sich dem
 Inhalt an. Ein vollständiges Beispiel, das Eingabetext mit
 `number(read(input))` umwandelt, ist in [gui_example.wo](./gui_example.wo).
+
+## Spiele
+
+Words verwendet für einfache 2D-Spiele ein Tkinter-Fenster mit Canvas; weitere
+Pakete sind dafür nicht erforderlich. `game.create(breite, höhe, titel)`
+öffnet das Spielfenster. Die Schleife wird im Words-Programm geschrieben:
+`while game.running.` prüft, ob das Fenster offen ist, und `game.loop()` wartet
+auf den nächsten Frame, verarbeitet Eingaben und aktualisiert `delta_time()`
+und `fps()`. Innerhalb jedes Durchlaufs folgen Zustandsänderung und Zeichnen:
+
+```text
+game.create(640, 360, "Words game").
+game.set_fps(60).
+game.background("#182030").
+x = 40.
+y = 120.
+speed = 160.
+
+while game.running.
+    game.loop().
+    x = physics.velocity(x, speed, game.delta_time()).
+    if key.down("left").
+        x = x - speed * game.delta_time().
+    game.clear().
+    draw.rect(x, y, 40, 40, "#55AAFF").
+    draw.text(12, 12, "Move with the arrow keys", "#FFFFFF").
+    game.draw().
+```
+
+    Ein ausführbares Beispiel für die Tastatursteuerung ist
+    [game_example.wo](./game_example.wo).
+
+### Spielsteuerung und Zeichnen
+
+`game.update()` verarbeitet ausstehende Fensterereignisse. `game.draw()`
+aktualisiert die Canvas-Zeichnung. `game.clear()` entfernt alle gezeichneten
+Objekte, ohne die Hintergrundfarbe zu ändern. `game.background(color)` setzt
+die Hintergrundfarbe. `game.close()` beendet das Fenster und setzt
+`game.running` auf `false`.
+
+`game.set_fps(fps)` legt ein Limit von 1 bis 240 Bildern pro Sekunde fest.
+`game.delta_time()` liefert die Sekunden seit dem vorigen Frame;
+`game.fps()` liefert die zuletzt gemessene Bildrate. `game.loop()` und die
+anderen Fensterfunktionen setzen ein zuvor erstelltes, noch offenes Spielfenster
+voraus.
+
+| Funktion | Argumente und Verhalten |
+| --- | --- |
+| `draw.rect(x, y, width, height, color)` | Gefülltes Rechteck. |
+| `draw.circle(x, y, radius, color)` | Gefüllter Kreis; `x, y` ist der Mittelpunkt. |
+| `draw.line(x1, y1, x2, y2, color[, width])` | Linie mit optionaler Strichbreite. |
+| `draw.polygon(points, color)` | Polygon aus einer flachen Liste mit mindestens drei `x, y`-Paaren. |
+| `draw.text(x, y, text, color[, size])` | Text ab der oberen linken Position; Schriftgröße standardmäßig 16. |
+| `draw.image(x, y, path)` | Bild an der oberen linken Position. |
+| `draw.sprite(x, y, path)` | Alias für `draw.image`. |
+| `draw.pixel(x, y, color)` | Ein Canvas-Pixel. |
+
+Farben für Zeichnungen müssen sechsstellige Hex-Farben wie `"#55AAFF"` sein.
+Bildpfade sind relativ zum Ordner des gestarteten `.wo`-Programms. Tkinter
+unterstützt abhängig von der Installation unter anderem GIF-, PNG-, PGM- und
+PPM-Dateien.
+
+`key.down(name)` ist wahr, solange eine Taste gehalten wird. `key.pressed(name)`
+und `key.released(name)` sind jeweils nur im Frame des Tastendrucks oder
+Loslassens wahr. Namen wie `"left"`, `"space"`, `"enter"` und `"esc"` werden
+unterstützt; normale Buchstaben können direkt angegeben werden.
+`mouse.position()` liefert `[x, y]` in Canvas-Koordinaten.
+`mouse.clicked()` erkennt einen Klick der linken Maustaste im aktuellen Frame;
+optional kann die Maustaste `1`, `2` oder `3` angegeben werden.
+
+### Kollisionen und Physik
+
+- `collision.rect(x1, y1, width1, height1, x2, y2, width2, height2)` prüft,
+  ob sich zwei achsenparallele Rechtecke überlappen.
+- `collision.circle(x1, y1, radius1, x2, y2, radius2)` prüft, ob sich zwei
+  Kreise berühren oder überschneiden.
+- `physics.gravity(velocity, acceleration, delta_time)` gibt die aktualisierte
+  Geschwindigkeit `velocity + acceleration * delta_time` zurück.
+- `physics.velocity(position, velocity, delta_time)` gibt die neue Position
+  `position + velocity * delta_time` zurück.
+- `physics.force(velocity, force, mass, delta_time)` wendet eine Kraft auf die
+  Geschwindigkeit an und gibt `velocity + force / mass * delta_time` zurück.
+  Die Masse muss positiv sein.
+- `physics.friction(velocity, coefficient, delta_time)` verringert den Betrag
+  der Geschwindigkeit um `coefficient * delta_time`, höchstens bis null.
+
+Alle Bewegungs- und Physikfunktionen liefern Werte zurück; den Spielzustand
+weist das Programm den Variablen selbst zu. `delta_time` muss nicht-negativ
+sein, Reibung darf nicht-negativ und Masse muss positiv sein.
 
 ## Dateien und Websites öffnen
 
