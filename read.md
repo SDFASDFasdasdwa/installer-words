@@ -206,6 +206,21 @@ print(age + 1, price).
 Ungültiger Text, Wahrheitswerte und nicht-endliche Dezimalzahlen wie `"nan"`
 erzeugen einen Words-Fehler.
 
+`calculate(text)` wertet einen mathematischen Textausdruck aus und gibt eine
+Zahl zurück. Unterstützt werden Zahlen, Klammern sowie `+`, `-`, `*`, `/`,
+`//`, `%` und `**` einschliesslich unärem Vorzeichen:
+
+```text
+result = calculate("2 + 3 * (4 - 1)").
+print(result).
+```
+
+Die Funktion verwendet keinen Python-Code-Auswerter. Namen, Funktionsaufrufe
+und andere Ausdrücke sind nicht erlaubt. Zum Schutz vor übergrossen
+Berechnungen ist der Ausdruck auf 256 Zeichen und 64 Syntaxelemente begrenzt;
+Exponenten dürfen höchstens den Betrag 100 haben und ganzzahlige Ergebnisse
+höchstens 4096 Bits.
+
 ## Anweisungen und Kontrollfluss
 
 ### Ausgabe
@@ -404,6 +419,7 @@ werden:
 set(message, "Welcome!").
 append(visitor, " Words").
 clear().
+update().
 ```
 
 - `set(widget_name, value)` ersetzt den Text einer `text`- oder
@@ -411,6 +427,9 @@ clear().
   ersetzt. Namen können unquoted oder als Text angegeben werden.
 - `append(field_name, value)` hängt Text an ein `textbox` oder `textarea` an.
 - `clear()` leert alle ein- und mehrzeiligen Eingabefelder im aktuellen Fenster.
+- `update()` hat keine Argumente und aktualisiert ausstehende GUI-Zeichnungen
+  und Layoutänderungen. Die Funktion ist nur bei geöffnetem GUI-Fenster
+  verfügbar.
 
 Für `set` und `append` wird der Wert in Text umgewandelt. `append` funktioniert
 nur mit Textfeldern. Diese Funktionen sind innerhalb eines Button-Ereignisses
@@ -423,7 +442,9 @@ angezeigt. GUIs brauchen Tkinter und eine verfügbare grafische Desktop-Sitzung.
 Checkboxen, Menüs, frei wählbare Positionen oder dynamische Erstellung neuer
 Widgets nach dem Öffnen werden noch nicht unterstützt.
 
-`read(name)` liest ein `textbox` oder `textarea`. Mehrzeilige Felder behalten
+`read(name)` liest den Inhalt eines benannten `textbox` oder `textarea` und
+benötigt genau einen Feldnamen als Text oder unquoted Variablennamen. Ein
+parameterloses `read()` ist nicht verfügbar. Mehrzeilige Felder behalten
 Zeilenumbrüche; `append` hängt den angegebenen Text exakt an.
 
 Die Widgets erscheinen in Deklarationsreihenfolge mit einheitlichen Abständen
