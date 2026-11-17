@@ -1,101 +1,37 @@
-# Words – Sprachreferenz
+# Words
 
-Words ist eine kleine englischsprachige Programmiersprache. Der Interpreter
-steht in `main.py`; Words-Programme werden als UTF-8-kodierte `.wo`-Dateien
-gespeichert.
+Words ist eine englischsprachige Programmiersprache für kleine Programme,
+Werkzeuge, Grafikanwendungen und einfache Spiele auf Windows.
 
-## Inhaltsverzeichnis
+Ein Programm wird in einer UTF-8-kodierten Datei mit der Endung `.wo`
+geschrieben. Nach der Installation öffnet der Words-Interpreter diese Dateien
+durch einen Doppelklick.
 
-- [Installation und Start](#installation-und-start)
-- [Schnellstart](#schnellstart)
-- [Grundregeln und Syntax](#grundregeln-und-syntax)
-- [Werte, Variablen und Ausdrücke](#werte-variablen-und-ausdrücke)
-- [Anweisungen und Kontrollfluss](#anweisungen-und-kontrollfluss)
-- [Listen](#listen)
-- [Module importieren](#module-importieren)
-- [SQL-Datenbanken](#sql-datenbanken)
-- [Grafische Oberflächen](#grafische-oberflächen)
-- [Spiele](#spiele)
-- [Dateien und Websites öffnen](#dateien-und-websites-öffnen)
-- [Zufallszahlen](#zufallszahlen)
-- [Kommentare](#kommentare)
-- [Fehler und Einschränkungen](#fehler-und-einschränkungen)
+## Installation
 
-## Installation und Start
+1. Lade den aktuellen Windows-Installer herunter.
+2. Starte `WordsInstaller.exe`.
+3. Wähle den Installationsordner.
+4. Bestätige die Installation für den aktuellen Windows-Benutzer.
 
-Words braucht Python. Für grafische Oberflächen muss außerdem Tkinter in der
-Python-Installation enthalten sein.
+Für die Nutzung von Words wird kein separates Python installiert. Der Installer
+legt den benötigten Interpreter mit `.wo`-Dateizuordnung an.
 
-Ein Programm aus dem Projektordner starten:
+Eine `.wo`-Datei nur aus vertrauenswürdigen Quellen öffnen. Beim Doppelklick
+wird der enthaltene Programmcode ausgeführt.
 
-```powershell
-python main.py example.wo
+## Erstes Programm
+
+Erstelle eine Datei namens `hello.wo`:
+
+```text
+name = "Ada".
+
+print("Hello", name).
 ```
 
-Alternativ kann ein anderer `.wo`-Dateipfad angegeben werden:
-
-```powershell
-python main.py pfad\zu\programm.wo
-```
-
-Ohne Dateinamen startet eine einfache interaktive Eingabeaufforderung:
-
-```powershell
-python main.py
-```
-
-Mit `exit` wird die Eingabeaufforderung beendet. Jede eingegebene Zeile wird
-als eigenes Programm ausgeführt; Variablen bleiben nicht für die nächste Zeile
-erhalten. Für mehrzeilige Programme eine `.wo`-Datei verwenden.
-
-### Windows-Installer erstellen
-
-Der Installer bündelt Words zusammen mit der Python-Laufzeit. Daher muss auf
-dem Zielcomputer Python nicht separat installiert sein. Zum Erstellen wird
-Python auf dem Entwicklungscomputer benötigt:
-
-```powershell
-python -m pip install -r requirements-build.txt
-.\build_installer.ps1
-```
-
-Danach liegt `WordsInstaller.exe` im Ordner `dist`. Beim Start kann der
-Installationsordner ausgewählt werden. Der Installer bietet außerdem an,
-Words für den aktuellen Windows-Benutzer zu installieren oder die
-`.wo`-Dateizuordnung zu entfernen. Die Installation benötigt keine
-Administratorrechte. Bei einer vorhandenen Zuordnung fragt der Installer vor
-dem Ersetzen. Die Zuordnung startet danach den gebündelten Words-Interpreter
-aus dem gewählten Ordner. Das Words-Logo aus `assets\words-logo.png` wird auch
-als Symbol für Installer, Interpreter und `.wo`-Dateien verwendet.
-
-Nach dem Erstellen kann die Installationsoberfläche zum Testen auch mit Python
-gestartet werden:
-
-```powershell
-python install_words.py
-```
-
-Dabei muss `dist\WordsRuntime.exe` vorhanden sein.
-
-Der Installer ändert nur Einstellungen des aktuellen Benutzers. Falls Windows
-weiterhin ein anderes Programm öffnet, Words in den Windows-Einstellungen
-unter „Öffnen mit“ als Standard auswählen. Eine `.wo`-Datei kann Programmcode
-ausführen; per Doppelklick daher nur Dateien starten, denen du vertraust.
-
-Die installierte `WordsRuntime.exe` ruft bei jedem Start die aktuelle
-`main.py` von der [GitHub-Raw-Quelle](https://raw.githubusercontent.com/SDFASDFasdasdwa/Words/refs/heads/main/words%20v.1.0.0)
-über HTTPS ab. Die heruntergeladene Datei wird auf gültige UTF-8-Kodierung und
-Python-Syntax geprüft und danach atomar im Ordner
-`%LOCALAPPDATA%\Words\cache\main.py` gespeichert. Der Zielcomputer benötigt
-weiterhin keine separate Python-Installation.
-
-Wenn GitHub nicht erreichbar ist, verwendet Words die letzte gültige
-heruntergeladene Version. Gibt es noch keine solche Version, startet die in
-der Runtime gebündelte Version. In beiden Fällen erscheint eine entsprechende
-Meldung in der Konsole. Die Quelle ist derzeit verschleiert und führt beim
-Start dynamisch entschlüsselten Python-Code aus. Prüfe, ob du der Quelle und
-ihren Änderungen vertraust, denn heruntergeladener Code wird mit den Rechten
-deines Windows-Benutzers ausgeführt.
+Öffne die Datei mit einem Doppelklick oder über „Öffnen mit“ im Windows-
+Explorer.
 
 ## Schnellstart
 
@@ -115,53 +51,41 @@ else.
     print("Not started.").
 ```
 
-Die Beispiel-Datei [example.wo](./example.wo) zeigt weitere Funktionen wie
-Imports, Listen, Zufallszahlen und Datenbankzugriff.
+Die mitgelieferten Beispiele zeigen zusätzliche Funktionen:
 
-## Grundregeln und Syntax
+- [example.wo](./example.wo) – Werte, Listen, Zufall, SQL und Module
+- [gui_example.wo](./gui_example.wo) – grafische Oberfläche
+- [game_example.wo](./game_example.wo) – einfaches Spiel
+- [greeting.wo](./greeting.wo) – kleines Begrüssungsprogramm
 
-- Words-Schlüsselwörter und eingebaute Namen sind englisch und
-  gross-/kleinschreibungssensitiv: `if` ist ein Schlüsselwort, `If` nicht.
-- Anweisungen wie Zuweisungen und `print(...)` enden mit einem Punkt (`.`).
-- Bedingungs- und Schleifenköpfe enden ebenfalls mit einem Punkt. Danach folgt
-  ein eingerückter Block.
-- GUI-Blöcke und Ereignisblöcke werden mit eckigen Klammern `[` und `]`
-  umschlossen.
-- Blöcke werden mit Leerzeichen eingerückt. Ein Tabulator wird vom Interpreter
-  wie vier Leerzeichen behandelt. Die Einrückung muss zu einer vorherigen
-  Blockebene passen.
-- Leere Zeilen und reine Kommentarzeilen sind erlaubt.
-- Namen beginnen mit einem ASCII-Buchstaben oder `_`; danach sind Buchstaben,
-  Ziffern und `_` erlaubt. Namen unterscheiden Gross- und Kleinschreibung.
-- Text steht in einfachen oder doppelten Anführungszeichen. Unterstützt werden
-  Python-kompatible Escape-Sequenzen wie `\n` und `\"`. Zeichenketten können
-  nicht über mehrere Quelltextzeilen gehen.
-- Zahlen sind ganze Zahlen oder Dezimalzahlen, zum Beispiel `12` und `3.5`.
-  Exponentialschreibweise wie `1e3` wird nicht unterstützt.
+## Grundregeln
 
-Beispiel für einen eingerückten Block:
+- Die Sprache unterscheidet Gross- und Kleinschreibung.
+- Zuweisungen und Funktionsaufrufe enden mit einem Punkt.
+- Bedingungs- und Schleifenköpfe enden ebenfalls mit einem Punkt.
+- Danach folgt ein eingerückter Block.
+- Ein Tabulator zählt wie vier Leerzeichen.
+- Text steht in einfachen oder doppelte Anführungszeichen.
+- Kommentare beginnen mit `//`.
+- Mehrzeilige Kommentare beginnen mit `/!` und enden mit `//!`.
 
 ```text
-if true.
-    print("This line is inside the block.").
+// Dies ist ein Kommentar.
+/! Dies ist ein
+mehrzeiliger Kommentar. //!
 ```
 
-## Werte, Variablen und Ausdrücke
+## Werte und Variablen
 
-### Datentypen
-
-Words unterstützt:
+Words unterstützt ganze Zahlen, Dezimalzahlen, Text, Wahrheitswerte und Listen:
 
 | Typ | Beispiele |
 | --- | --- |
 | Ganze Zahl | `0`, `42`, `-7` |
 | Dezimalzahl | `3.14`, `-0.5` |
-| Text | `"Hello"`, `'Words'` |
+| Text | `"Hello"`, `"Ada"` |
 | Wahrheitswert | `true`, `false` |
 | Liste | `[1, 2, 3]`, `[]` |
-
-Variablen werden durch Zuweisung erstellt und können später neu zugewiesen
-werden:
 
 ```text
 score = 10.
@@ -170,87 +94,54 @@ message = "Score:".
 print(message, score).
 ```
 
-`=` bedeutet Zuweisung. Der Gleichheitsvergleich lautet `=?`; `==` gehört nicht
-zur Words-Syntax.
+`=` weist einen Wert zu. Vergleiche verwenden `=?` statt `==`.
 
-### Operatoren
+## Operatoren
 
-Operatoren sind in der Tabelle von der niedrigsten zur höchsten Priorität
-aufgeführt:
-
-| Operatoren | Bedeutung |
+| Operator | Bedeutung |
 | --- | --- |
-| `or` | Logisches ODER |
-| `and` | Logisches UND |
-| `=?`, `!=`, `<`, `<=`, `>`, `>=` | Gleichheit und Vergleiche |
-| `+`, `-` | Addition und Subtraktion |
-| `*`, `/`, `%` | Multiplikation, Division und Restwert |
+| `or`, `and`, `not` | Logische Verknüpfungen |
+| `=?`, `!=`, `<`, `<=`, `>`, `>=` | Vergleiche |
+| `+`, `-` | Addition, Subtraktion |
+| `*`, `/`, `%` | Multiplikation, Division, Rest |
 | `**` | Potenzierung |
-
-Unäres `+`, unäres `-` und `not` sind ebenfalls verfügbar. Potenzierung
-verknüpft sich von rechts: `2 ** 3 ** 2` wird als `2 ** (3 ** 2)` ausgewertet.
-`and` und `or` werten ihre rechte Seite nur bei Bedarf aus.
-
-Klammern können die Reihenfolge festlegen:
 
 ```text
 result = (2 + 3) * 4.
+equal = result =? 20.
+print(equal).
 ```
 
-Einige Operatoren nutzen direkt die passenden Python-Operationen. Dadurch
-funktioniert zum Beispiel `"Hello " + "Words"` als Textverkettung. Nicht
-passende Typen oder ungültige Rechenoperationen erzeugen einen Laufzeitfehler.
+Klammern legen die Berechnungsreihenfolge fest.
 
-### Zahlen aus Text erzeugen
-
-`number(value)` wandelt numerischen Text in eine ganze Zahl oder Dezimalzahl
-um. Bereits numerische Werte werden unverändert zurückgegeben:
+### Zahlen aus Text
 
 ```text
 text = "12".
 age = number(text).
-price_text = "3.50".
-price = number(price_text).
-print(age + 1, price).
-```
+print(age + 1).
 
-Ungültiger Text, Wahrheitswerte und nicht-endliche Dezimalzahlen wie `"nan"`
-erzeugen einen Words-Fehler.
-
-`calculate(text)` wertet einen mathematischen Textausdruck aus und gibt eine
-Zahl zurück. Unterstützt werden Zahlen, Klammern sowie `+`, `-`, `*`, `/`,
-`//`, `%` und `**` einschliesslich unärem Vorzeichen:
-
-```text
-result = calculate("2 + 3 * (4 - 1)").
+result = calculate("2 + 3 * (4 - 1)"). 
 print(result).
 ```
 
-Die Funktion verwendet keinen Python-Code-Auswerter. Namen, Funktionsaufrufe
-und andere Ausdrücke sind nicht erlaubt. Zum Schutz vor übergrossen
-Berechnungen ist der Ausdruck auf 256 Zeichen und 64 Syntaxelemente begrenzt;
-Exponenten dürfen höchstens den Betrag 100 haben und ganzzahlige Ergebnisse
-höchstens 4096 Bits.
+`number(...)` wandelt numerischen Text in eine Zahl um.
+`calculate(...)` wertet einen begrenzten mathematischen Ausdruck aus.
 
-## Anweisungen und Kontrollfluss
+## Ausgabe
 
-### Ausgabe
-
-`print(...)` gibt null oder mehrere Werte aus. Mehrere Werte werden durch
-Leerzeichen getrennt:
+`print(...)` gibt Werte aus. Mehrere Werte werden mit Leerzeichen getrennt:
 
 ```text
 print("Hello").
 print("Name:", "Ada", "Score:", 42).
 ```
 
-### Bedingungen: `if`, `elseif`, `else`
-
-`if` führt seinen Block aus, wenn die Bedingung wahr ist. Beliebig viele
-`elseif`-Zweige können folgen. Der optionale `else`-Block läuft, wenn keine
-Bedingung wahr ist:
+## Bedingungen
 
 ```text
+score = 75.
+
 if score >= 90.
     print("Excellent").
 elseif score >= 60.
@@ -259,136 +150,121 @@ else.
     print("Try again").
 ```
 
-Jeder dieser Blockköpfe endet mit einem Punkt und wird von einem eingerückten
-Block gefolgt.
+`elseif` und `else` sind optional.
 
-### Schleifen: `while`
-
-`while` wiederholt seinen eingerückten Block, solange die Bedingung wahr ist:
+## Schleifen
 
 ```text
 count = 0.
+
 while count < 3.
     print(count).
     count = count + 1.
 ```
 
-Es gibt derzeit keine `for`-Schleife oder `break`-/`continue`-Anweisung.
+Aktuell gibt es keine `for`-Schleife sowie keine `break`- oder
+`continue`-Anweisung.
 
 ## Listen
 
-Listen werden mit eckigen Klammern erstellt. Elemente können beliebige
-unterstützte Werte einschließlich weiterer Listen enthalten:
-
 ```text
 numbers = [10, 20, 30].
-empty = [].
-nested = [[1, 2], [3, 4]].
-```
+print(numbers[0]).
+print(numbers[-1]).
 
-Indizes beginnen bei `0`. Negative Indizes zählen vom Ende. Elemente können
-gelesen, geändert und mit `append(...)` ergänzt werden:
-
-```text
-first = numbers[0].
-last = numbers[-1].
 numbers[1] = 25.
 numbers.append(40).
 print(numbers).
 ```
 
-Ein Index muss eine ganze Zahl sein. Ein Index ausserhalb der Liste oder ein
-unpassender Indexwert erzeugt einen Fehler. Eine Funktion zum Entfernen von
-Elementen oder zum Abfragen der Listenlänge gibt es derzeit nicht.
+Listenindizes beginnen bei `0`. Negative Indizes zählen vom Ende aus.
+`append(...)` fügt am Ende ein Element hinzu.
 
-## Module importieren
+## Words-Module
 
-Eine Words-Datei kann am Anfang eines Programms mit `import` eingebunden
-werden:
+Eigene Words-Dateien können mit `import` eingebunden werden:
 
 ```text
 import "helpers".
 print(helpers.message).
 ```
 
-Das lädt `helpers.wo` aus dem gleichen Ordner wie das importierende Programm.
-Die Endung `.wo` kann angegeben oder weggelassen werden. Unterordner sind
-ebenfalls möglich:
+Die Endung `.wo` kann angegeben oder weggelassen werden:
 
 ```text
 import "tools/helpers.wo".
 print(helpers.message).
 ```
 
-Der Modulname entspricht dem Dateinamen ohne Endung. Werte des Moduls werden
-über `modulname.wert` verwendet. Alle Variablen des Moduls sind über diesen
-Namensraum erreichbar. Importzeilen müssen vor ausführbaren Anweisungen stehen.
-Ein Modul kann weitere Module importieren. Ein Modul wird pro Programmlauf nur
-einmal ausgeführt; zyklische Importe erzeugen einen Fehler.
+Der Modulname entspricht dem Dateinamen ohne `.wo`. Werte werden über
+`modulname.wert` verwendet:
 
-Importe sind auf `.wo`-Dateien innerhalb des Ordners des gestarteten Programms
-und seiner Unterordner begrenzt. Absolute Pfade und Pfade, die aus diesem
-Ordner hinausführen, sind nicht erlaubt. Python-Module können nicht mit
+```text
+// helpers.wo
+message = "Hello from a module".
+```
+
+Importzeilen müssen am Anfang des Programms stehen. Ein Modul wird pro
+Programmlauf einmal geladen. Importpfade müssen innerhalb des Ordners des
+gestarteten Programms liegen. Absolute Pfade und Pfade ausserhalb dieses
+Ordners sind nicht erlaubt.
+
+Python-Bibliotheken können in der aktuellen Words-Version noch nicht mit
 `import` geladen werden.
 
-## SQL-Datenbanken
+## Zufallszahlen
 
-Words unterstützt SQLite über `sql.open(...)`. Datenbanken können im
-Arbeitsspeicher oder als Datei geöffnet werden:
+```text
+print(random.random()).      // Zahl zwischen 0 und 1
+print(random.random(1, 10)). // ganze Zahl im Bereich
+```
+
+`random.random()` liefert eine Dezimalzahl. Mit zwei Ganzzahlen liefert
+`random.random(min, max)` eine ganze Zahl zwischen beiden Grenzen.
+
+## SQLite-Datenbanken
+
+Words unterstützt SQLite:
 
 ```text
 database = sql.open(":memory:").
-// Für eine Datei: database = sql.open("data.sqlite").
-```
+database.execute("CREATE TABLE people (name TEXT, age INTEGER)"). 
+database.execute(
+    "INSERT INTO people (name, age) VALUES (?, ?)",
+    ["Ada", 36],
+).
 
-`query(...)` ist für lesende Abfragen vorgesehen und gibt eine Liste von
-Zeilen zurück. Jede Zeile ist eine Zuordnung von Spaltennamen zu Werten:
+rows = database.query(
+    "SELECT name, age FROM people WHERE age > ?",
+    [30],
+).
 
-```text
-database.execute("CREATE TABLE people (name TEXT, age INTEGER)").
-database.execute("INSERT INTO people (name, age) VALUES (?, ?)", ["Ada", 36]).
-rows = database.query("SELECT name, age FROM people WHERE age > ?", [30]).
 print(rows[0]["name"], rows[0].age).
-```
-
-Parameter werden als optionale zweite Liste übergeben. Werte nicht durch
-Zeichenkettenverkettung in den SQL-Befehl einsetzen; stattdessen `?`-Platzhalter
-verwenden.
-
-`execute(...)` führt eine einzelne SQL-Anweisung aus und speichert Änderungen
-sofort. Das Ergebnis enthält:
-
-- `changes`: Anzahl der geänderten Zeilen.
-- `last_id`: ID des zuletzt eingefügten Eintrags, sofern SQLite eine solche
-  bereitstellt.
-
-```text
-result = database.execute("UPDATE people SET age = ? WHERE name = ?", [37, "Ada"]).
-print(result["changes"]).
 database.close().
 ```
 
-Dateipfade müssen relativ zum Ordner des gestarteten Programms bleiben;
-absolute Pfade und Pfade ausserhalb dieses Ordners sind gesperrt. `:memory:`
-erstellt eine temporäre Datenbank. Offene Verbindungen werden am Programmende
-geschlossen. `query(...)` akzeptiert keine Änderungen. `ATTACH`, `DETACH`,
-`PRAGMA` und das Laden von SQLite-Erweiterungen sind gesperrt. PostgreSQL und
-MySQL/MariaDB werden nicht unterstützt.
+Für eine Datenbankdatei:
+
+```text
+database = sql.open("data.sqlite").
+```
+
+`query(...)` liest Daten und gibt eine Liste von Zeilen zurück.
+`execute(...)` verändert Daten. SQL-Werte immer über die optionale Parameterliste
+übergeben und Platzhalter `?` verwenden.
+
+Dateipfade müssen relativ zum Programmordner bleiben. SQLite-Erweiterungen,
+verbundene Datenbanken sowie andere Datenbanktypen werden nicht unterstützt.
 
 ## Grafische Oberflächen
-
-Mit `graphik "Titel" [` wird ein modernes Fenster mit Titelbereich,
-abgesetztem Inhaltsbereich und einheitlichen Eingabe- und Aktionsstilen
-geöffnet. Das Fenster wird zentriert und passt sich der Anzahl der Elemente an.
-Der Block enthält benannte Elemente. Die Namen müssen innerhalb dieses
-Fensters eindeutig sein:
 
 ```text
 graphik "Greeting" [
     text heading = "What is your name?".
     textbox visitor = "".
     button greet = "Say hello".
-    text result = "Your greeting will appear here.".
+    text result = "Waiting for input.".
+
     on greet [
         set(result, "Hello " + read(visitor)).
     ]
@@ -397,130 +273,46 @@ graphik "Greeting" [
 
 Unterstützte Elemente:
 
-| Deklaration | Verhalten |
+| Element | Beschreibung |
 | --- | --- |
-| `text name = "..." .` | Zeigt einen Text als Label an. |
-| `textbox name = "..." .` | Zeigt ein einzeiliges Eingabefeld mit Starttext an. |
-| `textarea name = "..." .` | Zeigt ein mehrzeiliges Eingabefeld an. |
-| `button name = "..." .` | Zeigt einen Button an. |
-| `image name = "..." .` | Zeigt ein Bild aus dem angegebenen Pfad an. |
+| `text` | Textanzeige |
+| `textbox` | einzeiliges Eingabefeld |
+| `textarea` | mehrzeiliges Eingabefeld |
+| `button` | Schaltfläche |
+| `image` | Bilddatei |
 
-Die Leerzeichen vor dem Punkt in der Tabelle dienen nur der Lesbarkeit; im
-Programm steht der Punkt direkt nach dem Textwert, zum Beispiel
-`text heading = "Hello".`.
+Wichtige GUI-Funktionen:
 
-Die Werte der GUI-Elemente müssen Text sein. Bildpfade sind relativ zum Ordner
-der aktuellen `.wo`-Datei oder absolut. Tkinter unterstützt je nach Installation
-unter anderem GIF-, PNG-, PGM- und PPM-Bilder.
+- `read(field_name)` liest den Inhalt eines Eingabefelds.
+- `set(widget_name, value)` ersetzt einen angezeigten Wert.
+- `append(field_name, value)` hängt Text an ein Eingabefeld an.
+- `clear()` leert alle Eingabefelder.
+- `update()` aktualisiert das Fensterlayout.
 
-### Farben anpassen
-
-Mit `color rolle = "#RRGGBB".` legst du Farben für das ganze Fenster fest.
-Jede Farbe muss als sechsstelliger Hex-Farbwert angegeben werden. Nicht
-angegebene Rollen behalten ihr Standarddesign:
+Farben können mit `color` festgelegt werden:
 
 ```text
-graphik "My app" [
+graphik "Colours" [
     color window = "#101820".
     color surface = "#202830".
-    color border = "#405060".
-    color title = "#FFFFFF".
-    color subtitle = "#B8C8D8".
-    color text = "#E8F0F8".
-    color muted = "#A0B0C0".
-    color footer = "#8090A0".
-    color input = "#182430".
-    color input_text = "#FFFFFF".
-    color button = "#344454".
-    color button_text = "#FFFFFF".
-    color button_hover = "#45596D".
     color accent = "#315EFB".
-    color accent_text = "#FFFFFF".
-    color accent_hover = "#244BDD".
-    color accent_pressed = "#1D3FC2".
-    text heading = "Welcome" foreground "#FFDD88" background "#26384A".
-    textbox name = "" foreground "#FFFFFF" background "#182430".
-    button submit = "Continue" foreground "#FFFFFF" background "#315EFB".
+    text heading = "Welcome" foreground "#FFFFFF" background "#202830".
+    button continue = "Continue".
 ]
 ```
 
-Verfügbare globale Rollen sind `window` (Fensterfläche), `surface`
-(Inhaltsbereich), `border`, `title`, `subtitle`, `text`, `muted`, `footer`,
-`input`, `input_text`, `button`, `button_text`, `button_hover`, `accent`,
-`accent_text`, `accent_hover` und `accent_pressed`. `accent`-Farben gelten für
-Buttons mit Ereignisblock; normale Buttons verwenden `button`-Farben.
-
-Jedes Element kann zusätzlich `foreground "#RRGGBB"` und/oder
-`background "#RRGGBB"` direkt nach seinem Startwert angeben. So lassen sich
-`text`, `textbox`, `textarea` und `button` einzeln gestalten. Bei Bildern wird
-nur der Hintergrund des Bild-Widgets geändert; die Bildpixel selbst bleiben
-unverändert. Windows-Fensterrandleisten und die Titelleiste werden vom
-Betriebssystem gesteuert und nicht von diesen Farben eingefärbt.
-
-`on button_name [` legt einen Klick-Ereignisblock für einen Button fest. Der
-Name muss auf ein Element vom Typ `button` verweisen. `read(field_name)` liefert
-den aktuellen Text aus einem Textfeld; der Feldname kann unquoted als
-Variablenname oder als Text angegeben werden:
-
-```text
-print(read(visitor)).
-print(read("visitor")).
-```
-
-Während das Fenster geöffnet ist, können Widgets anhand ihres Namens geändert
-werden:
-
-```text
-set(message, "Welcome!").
-append(visitor, " Words").
-clear().
-update().
-```
-
-- `set(widget_name, value)` ersetzt den Text einer `text`- oder
-  `button`-Anzeige. Bei einem `textbox` oder `textarea` wird dessen Inhalt
-  ersetzt. Namen können unquoted oder als Text angegeben werden.
-- `append(field_name, value)` hängt Text an ein `textbox` oder `textarea` an.
-- `clear()` leert alle ein- und mehrzeiligen Eingabefelder im aktuellen Fenster.
-- `update()` hat keine Argumente und aktualisiert ausstehende GUI-Zeichnungen
-  und Layoutänderungen. Die Funktion ist nur bei geöffnetem GUI-Fenster
-  verfügbar.
-
-Für `set` und `append` wird der Wert in Text umgewandelt. `append` funktioniert
-nur mit Textfeldern. Diese Funktionen sind innerhalb eines Button-Ereignisses
-verwendbar, solange das zugehörige `graphik`-Fenster offen ist.
-
-Elemente erscheinen untereinander. Mehrzeilige Eingabefelder haben eine
-vertikale Bildlaufleiste. Das Programm wartet, bis das Fenster
-geschlossen wird. Fehler in einem Button-Ereignis werden als Meldungsfenster
-angezeigt. GUIs brauchen Tkinter und eine verfügbare grafische Desktop-Sitzung.
-Checkboxen, Menüs, frei wählbare Positionen oder dynamische Erstellung neuer
-Widgets nach dem Öffnen werden noch nicht unterstützt.
-
-`read(name)` liest den Inhalt eines benannten `textbox` oder `textarea` und
-benötigt genau einen Feldnamen als Text oder unquoted Variablennamen. Ein
-parameterloses `read()` ist nicht verfügbar. Mehrzeilige Felder behalten
-Zeilenumbrüche; `append` hängt den angegebenen Text exakt an.
-
-Die Widgets erscheinen in Deklarationsreihenfolge mit einheitlichen Abständen
-in einem hellen Inhaltsbereich. Buttons mit Ereignisblock erhalten eine
-hervorgehobene Darstellung. Das Fenster wird zentriert und passt sich dem
-Inhalt an. Ein vollständiges Beispiel, das Eingabetext mit
-`number(read(input))` umwandelt, ist in [gui_example.wo](./gui_example.wo).
+Ein vollständiges GUI-Beispiel steht in [gui_example.wo](./gui_example.wo).
+Für Grafiken wird eine verfügbare Windows-Desktop-Sitzung und Tkinter benötigt.
 
 ## Spiele
 
-Words verwendet für einfache 2D-Spiele ein Tkinter-Fenster mit Canvas; weitere
-Pakete sind dafür nicht erforderlich. `game.create(breite, höhe, titel)`
-öffnet das Spielfenster. Die Schleife wird im Words-Programm geschrieben:
-`while game.running.` prüft, ob das Fenster offen ist, und `game.loop()` wartet
-auf den nächsten Frame, verarbeitet Eingaben und aktualisiert `delta_time()`
-und `fps()`. Innerhalb jedes Durchlaufs folgen Zustandsänderung und Zeichnen:
+Für einfache 2D-Spiele stehen Canvas-Zeichenfunktionen und Eingaben zur Verfügung:
 
 ```text
 game.create(640, 360, "Words game").
 game.set_fps(60).
 game.background("#182030").
+
 x = 40.
 y = 120.
 speed = 160.
@@ -528,176 +320,70 @@ speed = 160.
 while game.running.
     game.loop().
     x = physics.velocity(x, speed, game.delta_time()).
+
     if key.down("left").
         x = x - speed * game.delta_time().
+
     game.clear().
     draw.rect(x, y, 40, 40, "#55AAFF").
     draw.text(12, 12, "Move with the arrow keys", "#FFFFFF").
     game.draw().
 ```
 
-    Ein ausführbares Beispiel für die Tastatursteuerung ist
-    [game_example.wo](./game_example.wo).
+Verfügbare Bereiche umfassen unter anderem:
 
-### Spielsteuerung und Zeichnen
+- `game.*` – Fenster, Loop, Zeit und FPS
+- `draw.*` – Rechtecke, Kreise, Linien, Text und Bilder
+- `key.*` – Tastenzustände
+- `mouse.*` – Mausposition und Klicks
+- `collision.*` – Überschneidungsprüfungen
+- `physics.*` – Bewegung, Geschwindigkeit und Beschleunigung
 
-`game.update()` verarbeitet ausstehende Fensterereignisse. `game.draw()`
-aktualisiert die Canvas-Zeichnung. `game.clear()` entfernt alle gezeichneten
-Objekte, ohne die Hintergrundfarbe zu ändern. `game.background(color)` setzt
-die Hintergrundfarbe. `game.close()` beendet das Fenster und setzt
-`game.running` auf `false`.
-
-`game.set_fps(fps)` legt ein Limit von 1 bis 240 Bildern pro Sekunde fest.
-`game.delta_time()` liefert die Sekunden seit dem vorigen Frame;
-`game.fps()` liefert die zuletzt gemessene Bildrate. `game.loop()` und die
-anderen Fensterfunktionen setzen ein zuvor erstelltes, noch offenes Spielfenster
-voraus.
-
-| Funktion | Argumente und Verhalten |
-| --- | --- |
-| `draw.rect(x, y, width, height, color)` | Gefülltes Rechteck. |
-| `draw.circle(x, y, radius, color)` | Gefüllter Kreis; `x, y` ist der Mittelpunkt. |
-| `draw.line(x1, y1, x2, y2, color[, width])` | Linie mit optionaler Strichbreite. |
-| `draw.polygon(points, color)` | Polygon aus einer flachen Liste mit mindestens drei `x, y`-Paaren. |
-| `draw.text(x, y, text, color[, size])` | Text ab der oberen linken Position; Schriftgröße standardmäßig 16. |
-| `draw.image(x, y, path)` | Bild an der oberen linken Position. |
-| `draw.sprite(x, y, path)` | Alias für `draw.image`. |
-| `draw.pixel(x, y, color)` | Ein Canvas-Pixel. |
-
-Farben für Zeichnungen müssen sechsstellige Hex-Farben wie `"#55AAFF"` sein.
-Bildpfade sind relativ zum Ordner des gestarteten `.wo`-Programms. Tkinter
-unterstützt abhängig von der Installation unter anderem GIF-, PNG-, PGM- und
-PPM-Dateien.
-
-`key.down(name)` ist wahr, solange eine Taste gehalten wird. `key.pressed(name)`
-und `key.released(name)` sind jeweils nur im Frame des Tastendrucks oder
-Loslassens wahr. Namen wie `"left"`, `"space"`, `"enter"` und `"esc"` werden
-unterstützt; normale Buchstaben können direkt angegeben werden.
-`mouse.position()` liefert `[x, y]` in Canvas-Koordinaten.
-`mouse.clicked()` erkennt einen Klick der linken Maustaste im aktuellen Frame;
-optional kann die Maustaste `1`, `2` oder `3` angegeben werden.
-
-### Kollisionen und Physik
-
-- `collision.rect(x1, y1, width1, height1, x2, y2, width2, height2)` prüft,
-  ob sich zwei achsenparallele Rechtecke überlappen.
-- `collision.circle(x1, y1, radius1, x2, y2, radius2)` prüft, ob sich zwei
-  Kreise berühren oder überschneiden.
-- `physics.gravity(velocity, acceleration, delta_time)` gibt die aktualisierte
-  Geschwindigkeit `velocity + acceleration * delta_time` zurück.
-- `physics.velocity(position, velocity, delta_time)` gibt die neue Position
-  `position + velocity * delta_time` zurück.
-- `physics.force(velocity, force, mass, delta_time)` wendet eine Kraft auf die
-  Geschwindigkeit an und gibt `velocity + force / mass * delta_time` zurück.
-  Die Masse muss positiv sein.
-- `physics.friction(velocity, coefficient, delta_time)` verringert den Betrag
-  der Geschwindigkeit um `coefficient * delta_time`, höchstens bis null.
-
-Alle Bewegungs- und Physikfunktionen liefern Werte zurück; den Spielzustand
-weist das Programm den Variablen selbst zu. `delta_time` muss nicht-negativ
-sein, Reibung darf nicht-negativ und Masse muss positiv sein.
+Ein ausführbares Beispiel ist [game_example.wo](./game_example.wo).
 
 ## Dateien und Websites öffnen
 
-`start(...)` öffnet eine vorhandene lokale Datei mit der zugehörigen Anwendung
-oder eine Website im Standardbrowser:
-
 ```text
-start("notes.txt").
-start("https://example.com").
+open("C:\\Users\\Ada\\Documents").
+open("https://example.com").
 ```
 
-Relative Dateipfade werden relativ zum Ordner der aktuellen `.wo`-Datei
-aufgelöst; absolute Pfade sind erlaubt. Die Datei muss bereits vorhanden sein.
-Für Webadressen werden nur `http://` und `https://` akzeptiert. Der Pfad wird
-dem Betriebssystem übergeben und nicht als Shell-Befehl interpretiert.
-
-## Zufallszahlen
-
-`random.random()` erzeugt eine Zufallszahl mit Pythons Standard-Zufallsgenerator.
-Ohne Argumente erhältst du eine Dezimalzahl im Bereich `[0.0, 1.0)`:
-
-```text
-fraction = random.random().
-```
-
-Mit zwei Grenzen wird eine Zahl zwischen diesen Grenzen erzeugt; beide Grenzen
-sind eingeschlossen:
-
-```text
-whole = random.random(1, 10).
-decimal = random.random(1.5, 2.5).
-```
-
-Sind beide Grenzen ganze Zahlen, ist das Ergebnis eine ganze Zahl. Enthält
-mindestens eine Grenze eine Dezimalzahl, ist das Ergebnis eine Dezimalzahl.
-Die untere Grenze darf nicht grösser als die obere sein. Wahrheitswerte sind
-keine gültigen Grenzen.
-
-`random.mous()` hat dieselbe Bereichssyntax, verwendet aber erfasste
-Mausbewegungen als Grundlage:
-
-```text
-mouse_fraction = random.mous().
-mouse_number = random.mous(1, 10).
-```
-
-`random.mous()` funktioniert nur unter Windows. Wird die Funktion im Programm
-verwendet, erfasst Words während der Programmlaufzeit lokal Cursorbewegungen.
-Es bleiben höchstens die letzten 512 Bewegungen im Arbeitsspeicher; die
-Erfassung endet mit dem Programm. Wenn noch keine Bewegung erfasst wurde,
-wartet die Funktion auf eine Bewegung. Mausdaten werden weder in Dateien
-geschrieben noch übertragen. Für sicherheitskritische Zufallswerte ist die
-Funktion nicht geeignet.
-
-`random.hot()` ist nicht implementiert.
+Pfad- und URL-Text müssen gültig sein. Eine Datei oder Website wird mit der
+unter Windows zugeordneten Anwendung geöffnet.
 
 ## Kommentare
 
-Einzeilige Kommentare beginnen mit `//`. Der Rest der Zeile wird ignoriert:
+Ein Kommentar bis zum Zeilenende:
 
 ```text
-// Das ist ein Kommentar.
-score = 10. // Kommentar hinter einer Anweisung.
+// Dieses Zeichen entfernt den Rest der Zeile aus der Ausführung.
 ```
 
-Mehrzeilige Kommentare beginnen mit `/!` und enden mit `//!`:
+Ein Kommentar über mehrere Zeilen:
 
 ```text
 /!
-Dieser Kommentar darf
-mehrere Zeilen umfassen.
-//!
+Mehrere Kommentarzeilen.
+//! 
 ```
 
-Kommentarzeichen innerhalb eines Textes in Anführungszeichen sind normaler
-Text. Blockkommentare können nicht verschachtelt werden. Ein nicht geschlossener
-Blockkommentar erzeugt einen Fehler.
+## Aktuelle Grenzen
 
-## Fehler und Einschränkungen
+- Keine benutzerdefinierten Funktionen.
+- Keine `for`-Schleifen, `break`- oder `continue`-Anweisungen.
+- Keine allgemeinen Wörterbücher; SQL-Zeilen liefern allerdings benannte Werte.
+- Keine Python-Bibliotheken über `import`.
+- SQL ist auf SQLite beschränkt.
+- Die GUI ist einfach und vertikal angeordnet.
+- Graphische Anwendungen benötigen eine Desktop-Sitzung.
 
-Fehler der Words-Syntax und der Laufzeit werden normalerweise mit Zeile und
-Spalte gemeldet. Beispiele sind unbekannte Variablen, falsche Einrückung,
-ungültige Operatoren, fehlende Dateien, ungültige Listenindizes oder
-fehlgeschlagene SQL-Befehle.
+## Fehler
 
-Der aktuelle Sprachumfang hat folgende Grenzen:
+Fehler enthalten Zeile und Spalte der Quelle. Häufige Ursachen sind:
 
-- Keine selbst definierten Funktionen, `for`-Schleifen,
-  `break`-/`continue`-Anweisungen oder Benutzereingaben.
-- Keine Wörterbücher als allgemeiner Words-Datentyp; SQL-Zeilen und
-  SQL-Ergebnisse liefern allerdings namensbasierte Werte.
-- Imports laden ausschliesslich begrenzte `.wo`-Dateien, keine Python-Module.
-- SQL ist auf SQLite beschränkt. `query(...)` ist lesend; Schreibzugriff erfolgt
-  ausdrücklich über `execute(...)`.
-- GUI-Elemente sind einfach und vertikal angeordnet. Tkinter sowie eine
-  grafische Desktop-Sitzung müssen verfügbar sein.
-- `random.mous()` benötigt Windows und reale Mausbewegungen.
-- Die REPL bewahrt Variablen nicht zwischen Eingabezeilen auf.
-
-## Dokumentationspflege
-
-Diese Datei ist die Referenz für den jeweils implementierten Words-Umfang. Wenn
-neue Schlüsselwörter, Operatoren, Datentypen, eingebaute Funktionen oder
-Einschränkungen hinzukommen oder sich ändern, wird der passende Abschnitt mit
-Syntax und einem ausführbaren Beispiel aktualisiert.
+- fehlender Punkt am Ende einer Anweisung,
+- falsche Einrückung,
+- unbekannter Variablen-, Modul- oder Funktionsname,
+- unzulässiger Datei- oder Verzeichnispfad,
+- falscher Werttyp,
+- nicht geschlossene Kommentare oder Zeichenketten.
