@@ -51,12 +51,6 @@ else.
     print("Not started.").
 ```
 
-Die mitgelieferten Beispiele zeigen zusätzliche Funktionen:
-
-- [example.wo](./example.wo) – Werte, Listen, Zufall, SQL und Module
-- [gui_example.wo](./gui_example.wo) – grafische Oberfläche
-- [game_example.wo](./game_example.wo) – einfaches Spiel
-- [greeting.wo](./greeting.wo) – kleines Begrüssungsprogramm
 
 ## Grundregeln
 
