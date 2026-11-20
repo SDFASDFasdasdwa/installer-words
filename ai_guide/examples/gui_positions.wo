@@ -1,0 +1,14 @@
+graphik "Greeting" [
+    color window = "#101820".
+    color surface = "#202830".
+    color accent = "#315EFB".
+
+    text prompt = "Your name" at (20, 20).
+    textbox visitor = "" at (20, 52).
+    button greet = "Say hello" at (20, 100).
+    text result = "Waiting" at (20, 150).
+
+    on greet [
+        set(result, "Hello " + read(visitor)).
+    ]
+]

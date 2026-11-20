@@ -1,0 +1,15 @@
+name = "Ada".
+count = 0.
+values = [10, 20, 30].
+values.append(number("40")).
+
+while count < 3.
+    print("Hello", name, count).
+    count = count + 1.
+
+if count =? 3.
+    print("Values:", values).
+else.
+    print("The loop did not finish").
+
+print("Calculation:", calculate("2 * (3 + 4)")).

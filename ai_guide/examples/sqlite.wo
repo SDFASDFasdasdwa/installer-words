@@ -1,0 +1,6 @@
+db = sql.open(":memory:").
+db.execute("CREATE TABLE tasks (title TEXT, done INTEGER)").
+db.execute("INSERT INTO tasks (title, done) VALUES (?, ?)", ["Write docs", 0]).
+rows = db.query("SELECT title, done FROM tasks WHERE done = ?", [0]).
+print("Pending task:", rows[0].title).
+db.close().

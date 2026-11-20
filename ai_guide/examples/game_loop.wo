@@ -1,0 +1,17 @@
+game.create(640, 360, "Move the square").
+game.set_fps(60).
+game.background("#182030").
+x = 280.
+y = 140.
+speed = 180.
+
+while game.running.
+    game.loop().
+    if key.down("left").
+        x = physics.velocity(x, -speed, game.delta_time()).
+    elseif key.down("right").
+        x = physics.velocity(x, speed, game.delta_time()).
+    game.clear().
+    draw.rect(x, y, 48, 48, "#55AAFF").
+    draw.text(16, 16, "Use left and right arrow keys", "#FFFFFF").
+    game.draw().
