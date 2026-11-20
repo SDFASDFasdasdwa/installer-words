@@ -3,6 +3,9 @@
 Words ist eine englischsprachige Programmiersprache für kleine Programme,
 Werkzeuge, Grafikanwendungen und einfache Spiele auf Windows.
 
+Eine ausführliche, KI-taugliche Sprach- und API-Referenz mit Beispielen liegt
+im Ordner [ai_guide](./ai_guide/README.md).
+
 Ein Programm wird in einer UTF-8-kodierten Datei mit der Endung `.wo`
 geschrieben. Nach der Installation öffnet der Words-Interpreter diese Dateien
 durch einen Doppelklick.
@@ -15,7 +18,41 @@ durch einen Doppelklick.
 4. Bestätige die Installation für den aktuellen Windows-Benutzer.
 
 Für die Nutzung von Words wird kein separates Python installiert. Der Installer
-legt den benötigten Interpreter mit `.wo`-Dateizuordnung an.
+legt den benötigten Interpreter mit `.wo`-Dateizuordnung an. Wenn Visual Studio
+Code installiert ist, wird ausserdem die Words-Sprachunterstützung automatisch
+hinzugefügt. Danach VS Code neu starten, damit die Syntaxhervorhebung aktiv ist.
+
+Die VS-Code-Unterstützung erkennt `.wo`-Dateien, färbt die Words-Syntax ein und
+hilft mit Kommentaren, Klammern und Einrückung. Sie ist für den normalen
+Windows-Benutzer installiert und benötigt keine Python- oder Extension-
+Marketplace-Installation. Ohne Visual Studio Code wird nur Words installiert;
+die Extension kann durch erneutes Ausführen des Installers hinzugefügt werden,
+nachdem VS Code installiert wurde.
+
+## Words in PowerShell und Eingabeaufforderung
+
+Der Installer fügt den Words-Installationsordner zum PATH des aktuellen
+Windows-Benutzers hinzu. Öffne nach der Installation ein neues PowerShell- oder
+Eingabeaufforderungsfenster, damit Windows den neuen PATH lädt.
+
+```powershell
+words --help
+words --version
+words -v
+words -version
+words hello.wo
+```
+
+`words` ohne Dateinamen startet die interaktive Words-Eingabe. `--help` zeigt
+die verfügbaren Optionen. Die Versionsoptionen geben die installierte Version
+aus. Für ein Programm kannst du einen Dateinamen oder Pfad zu einer `.wo`-Datei
+angeben. Dasselbe funktioniert in CMD:
+
+```cmd
+words --help
+words --version
+words hello.wo
+```
 
 Eine `.wo`-Datei nur aus vertrauenswürdigen Quellen öffnen. Beim Doppelklick
 wird der enthaltene Programmcode ausgeführt.
@@ -282,6 +319,28 @@ Wichtige GUI-Funktionen:
 - `append(field_name, value)` hängt Text an ein Eingabefeld an.
 - `clear()` leert alle Eingabefelder.
 - `update()` aktualisiert das Fensterlayout.
+
+### Elemente frei positionieren
+
+Mit `at (x, y)` kannst du Text, Eingabefelder, Schaltflächen und Bilder an
+Pixelkoordinaten positionieren. Der Ursprung `(0, 0)` ist die linke obere Ecke
+des Inhaltsbereichs. Koordinaten müssen nicht-negative ganze Zahlen sein.
+Koordinaten können auch Ausdrücke enthalten:
+
+```text
+graphik "Positioned controls" [
+    image logo = "logo.png" at (20, 20).
+    text heading = "Welcome" at (180, 30).
+    textbox name = "" at (180, 75).
+    button submit = "Continue" at (180, 125).
+]
+```
+
+Elemente ohne `at` behalten die automatische Anordnung untereinander bei.
+Positionierte und automatisch angeordnete Elemente können gemeinsam verwendet
+werden. Überlappungen sind möglich; wähle dafür die Koordinaten entsprechend.
+Der Inhaltsbereich wächst, wenn ein positioniertes Element über seine aktuelle
+Grösse hinausreicht.
 
 Farben können mit `color` festgelegt werden:
 
